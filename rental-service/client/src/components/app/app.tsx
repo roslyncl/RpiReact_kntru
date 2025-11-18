@@ -31,15 +31,15 @@ function App({rentalOffersCount, offersList, offers}: AppMainPageProps): JSX.Ele
             element = {<LoginPage />}/>
             
             <Route
-            path={ AppRoute.Favorites }
-            element={
-              <PrivateRoute
-                authorizationStatus={ AuthorizationStatus.NoAuth }
-              >
-                <FavoritesPage />
-              </PrivateRoute>
-            }
-          />
+              path={AppRoute.Favorites}
+              element={
+                <PrivateRoute
+                  authorizationStatus={AuthorizationStatus.NoAuth}
+                >
+                  <FavoritesPage favoriteOffers={offersList.filter(offer => offer.isFavorite)} />
+                </PrivateRoute>
+              }
+            />
 
             <Route
             path = { `${AppRoute.Offer}/:id` } 

@@ -1,6 +1,6 @@
 import { CitiesCardList } from "../../components/cities-card-list/cities-card-list";
 import { Logo } from "../../components/logo/logo";
-import { FullOffer, OfferList } from "../../types/offer";
+import { OfferList } from "../../types/offer";
 
 type MainPageProps = {
     rentalOffersCount: number;
