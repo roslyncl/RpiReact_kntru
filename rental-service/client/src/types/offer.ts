@@ -45,3 +45,10 @@ export type OfferList = {
     rating: number;
     previewImage: string;
 };
+
+export type MapPoint = {
+  id: string;
+  title: string;
+  lat: number;
+  lng: number;
+};

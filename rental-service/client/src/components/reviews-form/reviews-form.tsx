@@ -1,4 +1,37 @@
+import { JSX, useState, ChangeEvent, FormEvent  } from "react";
+
 function ReviewsForm(): JSX.Element {
+  const [formData, setFormData] = useState({
+    rating: '',
+    review: ''
+  });
+
+  const handleRatingChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      rating: event.target.value
+    });
+  };
+
+  const handleReviewChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      review: event.target.value
+    });
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log('Отправленные данные формы:', formData);
+
+    setFormData({
+      rating: '',
+      review: ''
+    });
+  };
+
+  const isFormValid = formData.rating !== '' && formData.review.length >= 50;
+
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>

@@ -1,6 +1,8 @@
 import { CitiesCardList } from "../../components/cities-card-list/cities-card-list";
 import { Logo } from "../../components/logo/logo";
 import { OfferList } from "../../types/offer";
+import { Map } from "../../components/map/map";
+import { JSX, useState } from "react";
 
 type MainPageProps = {
     rentalOffersCount: number;
@@ -8,6 +10,19 @@ type MainPageProps = {
 }
 
 function MainPage({ rentalOffersCount, offersList }: MainPageProps): JSX.Element {
+    const [selectedPoint, setSelectedPoint] = useState<OfferList | null>(null);
+
+    const city = offersList[0]?.city || {
+        name: 'Amsterdam',
+        location: {
+            latitude: 52.37454,
+            longitude: 4.897976,
+            zoom: 13
+        }
+    };
+
+    const amsterdamOffers = offersList.filter(offer => offer.city.name === 'Amsterdam');
+
     return (
         <div className="page page--gray page--main">
             <header className="header">
@@ -79,7 +94,7 @@ function MainPage({ rentalOffersCount, offersList }: MainPageProps): JSX.Element
                     <div className="cities__places-container container">
                         <section className="cities__places places">
                             <h2 className="visually-hidden">Places</h2>
-                            <b className="places__found">{rentalOffersCount} places to stay in Amsterdam</b>
+                            <b className="places__found">{amsterdamOffers.length} places to stay in Amsterdam</b>
                             <form className="places__sorting" action="#" method="get">
                                 <span className="places__sorting-caption">Sort by</span>
                                 <span className="places__sorting-type" tabIndex={0}>
@@ -95,10 +110,17 @@ function MainPage({ rentalOffersCount, offersList }: MainPageProps): JSX.Element
                                     <li className="places__option" tabIndex={0}>Top rated first</li>
                                 </ul>
                             </form>
-                            <CitiesCardList offersList={ offersList } />
+                            <CitiesCardList 
+                                offersList={amsterdamOffers} 
+                                onCardHover={setSelectedPoint}
+                            />
                         </section>
                         <div className="cities__right-section">
-                            <section className="cities__map map"></section>
+                            <Map 
+                                city={city}
+                                points={amsterdamOffers}
+                                selectedPoint={selectedPoint}
+                            />
                         </div>
                     </div>
                 </div>

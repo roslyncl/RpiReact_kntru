@@ -1,3 +1,4 @@
+import {JSX} from 'react';
 import { OfferList } from '../../types/offer';
 import { FavoriteCard } from '../favorite-card/favorite-card';
 

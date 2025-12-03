@@ -1,3 +1,4 @@
+import {JSX} from 'react';
 import { Logo } from "../../components/logo/logo";
 import { FavoriteCardList } from "../../components/favorite-card-list/favorite-card-list";
 import { OfferList } from "../../types/offer";
