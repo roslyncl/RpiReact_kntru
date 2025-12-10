@@ -10,11 +10,13 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus, Setting } from "../../const";
 import { PrivateRoute } from "../private-route/private-route";
 import { FullOffer, OfferList} from "../../types/offer";
+import { Review } from '../../types/review';
 
 type AppMainPageProps = {
     rentalOffersCount: number;
     offersList: OfferList[];
     offers: FullOffer[];
+    reviews: Review[];
 }
 
 function App({rentalOffersCount, offersList, offers}: AppMainPageProps): JSX.Element {
@@ -23,7 +25,7 @@ function App({rentalOffersCount, offersList, offers}: AppMainPageProps): JSX.Ele
         <Routes>
             <Route
             path = {AppRoute.Main}
-            element = {<MainPage rentalOffersCount={rentalOffersCount} offersList={offersList}/>}/>
+            element = {<MainPage/>}/>
         
             <Route
             path = {AppRoute.Login}
@@ -33,7 +35,7 @@ function App({rentalOffersCount, offersList, offers}: AppMainPageProps): JSX.Ele
               path={AppRoute.Favorites}
               element={
                 <PrivateRoute
-                  authorizationStatus={AuthorizationStatus.NoAuth}
+                  authorizationStatus={AuthorizationStatus.Auth}
                 >
                   <FavoritesPage favoriteOffers={offersList.filter(offer => offer.isFavorite)} />
                 </PrivateRoute>
@@ -52,4 +54,4 @@ function App({rentalOffersCount, offersList, offers}: AppMainPageProps): JSX.Ele
     )
 }
 
-export default App;
+export { App };

@@ -1,16 +1,6 @@
 import {JSX} from 'react';
+import { Review } from '../../types/review';
 import { ReviewItem } from '../review-item/review-item';
-
-type Review = {
-  id: string;
-  date: string;
-  user: {
-    name: string;
-    avatarUrl: string;
-  };
-  comment: string;
-  rating: number;
-};
 
 type ReviewsListProps = {
   reviews: Review[];
