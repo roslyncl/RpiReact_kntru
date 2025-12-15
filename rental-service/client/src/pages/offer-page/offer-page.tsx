@@ -4,11 +4,14 @@ import { NotFoundPage } from "../not-found-page/not-found-page";
 import { useParams } from "react-router-dom";
 import { ReviewsForm } from "../../components/reviews-form/reviews-form";
 import { ReviewsList } from "../../components/review-list/review-list";
-import { reviews } from "../../mocks/reviews";
+import { reviews as initialReviews } from "../../mocks/reviews";
 import { Map } from "../../components/map/map"; 
-import { useState } from "react"; 
+import { useState, useEffect } from "react"; 
 import { offers as mockOffers } from "../../mocks/offers";
 import { NearbyOffers } from "../../components/nearby-offers/nearby-offers"; 
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+import { Review } from '../../types/review';
 
 type OfferProps = {
   offers: FullOffer[];
@@ -18,6 +21,9 @@ function OfferPage({ offers }: OfferProps){
   const params = useParams();
   const offer = offers.find((item) => item.id === params.id);
   const [selectedPoint, setSelectedPoint] = useState<OfferList | null>(null);
+  const [reviews, setReviews] = useState<Review[]>(initialReviews);
+  
+  const favoriteCount = mockOffers.filter(item => item.isFavorite).length;
   
   if (!offer){
     return <NotFoundPage/>;
@@ -36,7 +42,9 @@ function OfferPage({ offers }: OfferProps){
       isFavorite: fullOffer.isFavorite,
       isPremium: fullOffer.isPremium,
       rating: fullOffer.rating,
-      previewImage: fullOffer.images[0] || 'img/apartment-01.jpg'
+      previewImage: fullOffer.images && fullOffer.images.length > 0 
+        ? fullOffer.images[0] 
+        : '/img/apartment-01.jpg'
     }));
 
   const currentOfferForMap: OfferList = {
@@ -49,10 +57,38 @@ function OfferPage({ offers }: OfferProps){
     isFavorite: offer.isFavorite,
     isPremium: offer.isPremium,
     rating: offer.rating,
-    previewImage: offer.images[0] || 'img/apartment-01.jpg'
+    previewImage: offer.images && offer.images.length > 0 
+      ? offer.images[0] 
+      : '/img/apartment-01.jpg'
   };
 
   const allMapPoints = [currentOfferForMap, ...mockNearbyOffers];
+
+  const getOfferImages = () => {
+    if (offer.images && offer.images.length > 0) {
+      return offer.images;
+    }
+    return [
+      '/img/apartment-01.jpg', 
+      '/img/apartment-02.jpg', 
+      '/img/apartment-03.jpg'
+    ];
+  };
+
+  const offerImages = getOfferImages();
+
+  const handleReviewSubmit = (reviewData: { comment: string; rating: number; user: { name: string; avatarUrl: string; isPro: boolean } }) => {
+    const newReview: Review = {
+      id: `review-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      date: new Date().toISOString(),
+      comment: reviewData.comment,
+      rating: reviewData.rating,
+      user: reviewData.user
+    };
+    
+    setReviews(prevReviews => [newReview, ...prevReviews]);
+    console.log('Новый отзыв добавлен:', newReview);
+  };
 
   return (
     <div className="page">
@@ -65,12 +101,13 @@ function OfferPage({ offers }: OfferProps){
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
+                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
                     <div className="header__avatar-wrapper user__avatar-wrapper">
+                      <img src="/img/avatar.jpg" alt="User avatar" />
                     </div>
                     <span className="header__user-name user__name">Myemail@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
+                    <span className="header__favorite-count">{favoriteCount}</span>
+                  </Link>
                 </li>
                 <li className="header__nav-item">
                   <a className="header__nav-link" href="#">
@@ -87,30 +124,39 @@ function OfferPage({ offers }: OfferProps){
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {offer.images.map((image) => (
-                <div key={image} className="offer__image-wrapper">
-                  <img className="offer__image" src={image} alt="Photo studio" />
+              {offerImages.slice(0, 6).map((image, index) => (
+                <div key={`${image}-${index}`} className="offer__image-wrapper">
+                  <img 
+                    className="offer__image" 
+                    src={image} 
+                    alt={`Photo studio ${index + 1}`} 
+                  />
                 </div>
               ))}
             </div>
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              {offer.isPremium ? (
+              {offer.isPremium && (
                 <div className="offer__mark">
                   <span>Premium</span>
                 </div>
-              ) : null}
+              )}
               
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
                   {offer.title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
+                <button 
+                  className={`offer__bookmark-button button ${offer.isFavorite ? 'offer__bookmark-button--active' : ''}`} 
+                  type="button"
+                >
                   <svg className="offer__bookmark-icon" width="31" height="33">
-                    <use href="#icon-bookmark"></use>
+                    <use xlinkHref="#icon-bookmark"></use>
                   </svg>
-                  <span className="visually-hidden">To bookmarks</span>
+                  <span className="visually-hidden">
+                    {offer.isFavorite ? 'In bookmarks' : 'To bookmarks'}
+                  </span>
                 </button>
               </div>
               
@@ -154,14 +200,20 @@ function OfferPage({ offers }: OfferProps){
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
                   <div className={`offer__avatar-wrapper ${offer.host.isPro ? 'offer__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
-                    <img className="offer__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
+                    <img 
+                      className="offer__avatar user__avatar" 
+                      src={offer.host.avatarUrl} 
+                      width="74" 
+                      height="74" 
+                      alt={`Host ${offer.host.name}`} 
+                    />
                   </div>
                   <span className="offer__user-name">
                     {offer.host.name}
                   </span>
-                  {offer.host.isPro ? (
+                  {offer.host.isPro && (
                     <span className="offer__user-status">Pro</span>
-                  ) : null}
+                  )}
                 </div>
                 <div className="offer__description">
                   <p className="offer__text">
@@ -172,7 +224,7 @@ function OfferPage({ offers }: OfferProps){
               
               <ReviewsList reviews={reviews} />
               
-              <ReviewsForm />
+              <ReviewsForm onReviewSubmit={handleReviewSubmit} />
             </div>
           </div>
           

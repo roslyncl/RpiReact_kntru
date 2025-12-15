@@ -8,7 +8,7 @@ export const reviews: Review[] = [
     'rating': 4,
     'user': {
       'name': 'Max',
-      'avatarUrl': 'img/avatar-max.jpg',
+      'avatarUrl': '/img/avatar-max.jpg',
       'isPro': true
     }
   },
@@ -19,7 +19,7 @@ export const reviews: Review[] = [
     'rating': 5,
     'user': {
       'name': 'Anna',
-      'avatarUrl': 'img/avatar-angelina.jpg',
+      'avatarUrl': '/img/avatar-angelina.jpg',
       'isPro': false
     }
   },
@@ -30,7 +30,7 @@ export const reviews: Review[] = [
     'rating': 3,
     'user': {
       'name': 'John',
-      'avatarUrl': 'img/avatar.svg',
+      'avatarUrl': '/img/avatar.jpg',
       'isPro': true
     }
   }

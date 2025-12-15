@@ -38,6 +38,15 @@ function useMap(mapRef: React.RefObject<HTMLDivElement | null>, city: City) {
     }
   }, [mapRef, city]);
 
+  useEffect(() => {
+    if (map && city) {
+      map.setView(
+        [city.location.latitude, city.location.longitude],
+        city.location.zoom
+      );
+    }
+  }, [map, city]);
+
   return map;
 }
 

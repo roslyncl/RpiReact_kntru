@@ -2,6 +2,8 @@ import {JSX} from 'react';
 import { Logo } from "../../components/logo/logo";
 import { FavoriteCardList } from "../../components/favorite-card-list/favorite-card-list";
 import { OfferList } from "../../types/offer";
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 type FavoritesPageProps = {
   favoriteOffers: OfferList[];
@@ -28,12 +30,13 @@ function FavoritesPage({ favoriteOffers }: FavoritesPageProps): JSX.Element {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
+                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
                     <div className="header__avatar-wrapper user__avatar-wrapper">
+                      <img src="/img/avatar.jpg" alt="User avatar" />
                     </div>
                     <span className="header__user-name user__name">Myemail@gmail.com</span>
                     <span className="header__favorite-count">{favoriteOffers.length}</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="header__nav-item">
                   <a className="header__nav-link" href="#">
@@ -64,7 +67,7 @@ function FavoritesPage({ favoriteOffers }: FavoritesPageProps): JSX.Element {
       </main>
       <footer className="footer container">
         <a className="footer__logo-link" href="main.html">
-          <img className="footer__logo" src="img/logo.svg" alt="Rent service logo" width="64" height="33" />
+          <img className="footer__logo" src="/img/logo.svg" alt="Rent service logo" width="64" height="33" />
         </a>
       </footer>
     </div>

@@ -38,14 +38,14 @@ export const offers: FullOffer[] = [
     ],
     host: {
       name: 'Oliver Conner',
-      avatarUrl: 'img/avatar-angelina.jpg',
+      avatarUrl: '/img/avatar-angelina.jpg',
       isPro: true
     },
     images: [
-      'img/apartment-01.jpg',
-      'img/apartment-02.jpg',
-      'img/apartment-03.jpg',
-      'img/room.jpg'
+      '/img/apartment-01.jpg',
+      '/img/apartment-02.jpg',
+      '/img/apartment-03.jpg',
+      '/img/room.jpg'
     ],
     maxAdults: 4
   },
@@ -81,12 +81,12 @@ export const offers: FullOffer[] = [
     ],
     host: {
       name: 'Angelina',
-      avatarUrl: 'img/avatar-angelina.jpg',
+      avatarUrl: '/img/avatar-angelina.jpg',
       isPro: true
     },
     images: [
-      'img/room.jpg',
-      'img/apartment-02.jpg'
+      '/img/room.jpg',
+      '/img/apartment-02.jpg'
     ],
     maxAdults: 2
   },
@@ -128,12 +128,12 @@ export const offers: FullOffer[] = [
     ],
     host: {
       name: 'Max',
-      avatarUrl: 'img/avatar-max.jpg',
+      avatarUrl: '/img/avatar-max.jpg',
       isPro: false
     },
     images: [
-      'img/apartment-03.jpg',
-      'img/apartment-01.jpg'
+      '/img/apartment-03.jpg',
+      '/img/apartment-01.jpg'
     ],
     maxAdults: 6
   },
@@ -169,13 +169,61 @@ export const offers: FullOffer[] = [
     ],
     host: {
       name: 'Sarah',
-      avatarUrl: 'img/avatar-angelina.jpg',
+      avatarUrl: '/img/avatar-angelina.jpg',
       isPro: true
     },
     images: [
-      'img/apartment-02.jpg',
-      'img/apartment-03.jpg'
+      '/img/apartment-02.jpg',
+      '/img/apartment-03.jpg'
     ],
     maxAdults: 3
+  },
+  {
+    id: '5',
+    title: 'Modern loft in city center',
+    type: 'apartment',
+    price: 200,
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.37454,
+        longitude: 4.897976,
+        zoom: 13
+      }
+    },
+    location: {
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 16
+    },
+    isFavorite: false,
+    isPremium: true,
+    rating: 4.7,
+    description: 'A modern loft with panoramic city views, located in the heart of Amsterdam.',
+    bedrooms: 3,
+    goods: [
+      'Wi-Fi',
+      'Washing machine',
+      'Towels',
+      'Heating',
+      'Coffee machine',
+      'Kitchen',
+      'Dishwasher',
+      'Cabel TV',
+      'Fridge',
+      'Parking',
+      'Balcony'
+    ],
+    host: {
+      name: 'Michael',
+      avatarUrl: '/img/avatar-max.jpg',
+      isPro: true
+    },
+    images: [
+      '/img/apartment-01.jpg',
+      '/img/apartment-02.jpg',
+      '/img/apartment-03.jpg'
+    ],
+    maxAdults: 4
   }
 ];

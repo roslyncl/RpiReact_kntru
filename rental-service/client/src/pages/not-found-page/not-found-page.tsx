@@ -1,5 +1,6 @@
 import {JSX} from 'react';
 import { Logo } from "../../components/logo/logo";
+import { Link } from 'react-router-dom';
 
 function NotFoundPage(): JSX.Element {
   return (
@@ -18,7 +19,7 @@ function NotFoundPage(): JSX.Element {
         <div>
           <h1>404</h1>
           <p>Page not found</p>
-          <a href="/" className="button">Go to Main Page</a>
+          <Link to="/" className="button">Go to Main Page</Link>
         </div>
       </main>
     </div>

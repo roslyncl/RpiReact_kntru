@@ -22,7 +22,7 @@ export const offersList: OfferList[] = [
     isFavorite: true,
     isPremium: true,
     rating: 4.8,
-    previewImage: 'img/apartment-01.jpg'
+    previewImage: '/img/apartment-01.jpg'
   },
   {
     id: '2',
@@ -45,7 +45,7 @@ export const offersList: OfferList[] = [
     isFavorite: false,
     isPremium: false,
     rating: 4.2,
-    previewImage: 'img/room.jpg'
+    previewImage: '/img/room.jpg'
   },
   {
     id: '3',
@@ -68,7 +68,7 @@ export const offersList: OfferList[] = [
     isFavorite: true,
     isPremium: true,
     rating: 4.9,
-    previewImage: 'img/apartment-03.jpg'
+    previewImage: '/img/apartment-03.jpg'
   },
   {
     id: '4',
@@ -91,7 +91,7 @@ export const offersList: OfferList[] = [
     isFavorite: false,
     isPremium: false,
     rating: 3.8,
-    previewImage: 'img/apartment-02.jpg'
+    previewImage: '/img/apartment-02.jpg'
   },
   {
     id: '5',
@@ -114,6 +114,6 @@ export const offersList: OfferList[] = [
     isFavorite: false,
     isPremium: true,
     rating: 4.7,
-    previewImage: 'img/apartment-01.jpg'
+    previewImage: '/img/apartment-01.jpg'
   }
 ];

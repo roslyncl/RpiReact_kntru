@@ -7,7 +7,7 @@ import { NotFoundPage } from "../../pages/not-found-page/not-found-page";
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { AppRoute, AuthorizationStatus, Setting } from "../../const";
+import { AppRoute, AuthorizationStatus } from "../../const";
 import { PrivateRoute } from "../private-route/private-route";
 import { FullOffer, OfferList} from "../../types/offer";
 import { Review } from '../../types/review';
