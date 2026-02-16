@@ -1,1 +1,7 @@
-# rpi_homework_React
+# Лабараторная работа 1
+## Первый get-запрос
+![1](img/1.jpg)
+## Тестируем Offer контроллер в Postman
+![2](img/2.jpg)
+## Теперь опишем функцию getAllOffers()
+![3](img/3.jpg)
