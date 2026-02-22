@@ -45,6 +45,3 @@ public class User {
     }
 }
 
-enum UserType {
-    normal, pro
-}

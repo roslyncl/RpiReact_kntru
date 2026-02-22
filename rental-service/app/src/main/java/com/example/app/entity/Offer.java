@@ -75,15 +75,3 @@ public class Offer {
     private User author;
 }
 
-enum City {
-    Paris, Cologne, Brussels, Amsterdam, Hamburg, Dusseldorf
-}
-
-enum OfferType {
-    apartment, house, room, hotel
-}
-
-enum Feature {
-    Breakfast, Air_conditioning, Laptop_friendly_workspace,
-    Baby_seat, Washer, Towels, Fridge
-}
