@@ -28,6 +28,16 @@ public class OfferController {
         return offerService.getFullOfferForClient(id);
     }
 
+    @GetMapping("/favorite")
+    public List<OfferClientDto> getFavoriteOffers() {
+        return offerService.getFavoriteOffersForClient();
+    }
+
+    @PostMapping("/favorite/{offerId}/{status}")
+    public OfferClientDto toggleFavorite(@PathVariable Long offerId, @PathVariable int status) {
+        return offerService.toggleFavorite(offerId, status);
+    }
+
     @PostMapping
     public Offer createOffer(@Valid @RequestBody OfferCreateRequest request) {
         return offerService.createOffer(request);

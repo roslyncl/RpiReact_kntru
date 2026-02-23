@@ -43,6 +43,22 @@ public class OfferService {
         return OfferAdapter.adaptFullOfferToClient(offer, offer.getAuthor(), baseUrl);
     }
 
+    public List<OfferClientDto> getFavoriteOffersForClient() {
+        List<Offer> offers = offerRepository.findByIsFavoriteTrue();
+        return offers.stream()
+                .map(offer -> OfferAdapter.adaptOfferToClient(offer, baseUrl))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public OfferClientDto toggleFavorite(Long offerId, int status) {
+        Offer offer = offerRepository.findById(offerId)
+                .orElseThrow(() -> new IllegalArgumentException("Offer not found"));
+        offer.setIsFavorite(status == 1);
+        offerRepository.save(offer);
+        return OfferAdapter.adaptOfferToClient(offer, baseUrl);
+    }
+
     @Transactional
     public Offer createOffer(OfferCreateRequest request) {
         User author = userRepository.findById(request.getAuthorId())
