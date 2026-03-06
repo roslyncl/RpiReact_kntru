@@ -81,4 +81,22 @@ const SortOffersType = {
   TopRated : 'Top rated first',
 };
 
-export { Setting, AppRoute, AuthorizationStatus, URL_MARKER_DEFAULT, URL_MARKER_CURRENT, CITIES_LOCATION, SortOffersType };
+const APIRoute = {
+  Offers: '/api/offers',                    // GET, POST
+  Offer: '/api/offers',                      // для деталей будем добавлять /id
+  Favorite: '/api/offers/favorite',          // GET избранные
+  ToggleFavorite: '/api/offers/favorite',    // POST /api/offers/favorite/{offerId}/{status}
+  // Auth routes (нужно добавить из других контроллеров)
+  Login: '/api/auth/login',                   // POST /api/auth/login
+  CheckAuth: '/api/auth/login',                // GET /api/auth/login
+  Logout: '/api/auth/logout',                  // DELETE /api/auth/logout
+  Register: '/api/auth/register',              // POST /api/auth/register
+  // Reviews
+  Reviews: '/api/reviews',                     // GET /api/reviews/{offerId}, POST /api/reviews/{offerId}
+} as const;
+
+const TIMEOUT_SHOW_ERROR = 2000;
+
+export { TIMEOUT_SHOW_ERROR, Setting, AppRoute, APIRoute, AuthorizationStatus, URL_MARKER_DEFAULT, URL_MARKER_CURRENT, CITIES_LOCATION, SortOffersType };
+
+export type AuthorizationStatusType = typeof AuthorizationStatus[keyof typeof AuthorizationStatus];
