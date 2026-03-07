@@ -7,6 +7,11 @@ import com.example.app.dto.UserRegistrationRequest;
 import com.example.app.entity.User;
 import com.example.app.service.UserService;
 import com.example.app.security.JwtService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +26,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Users", description = "Управление пользователями и аутентификация")
 public class UserController {
 
     @Autowired
@@ -30,11 +36,21 @@ public class UserController {
     private JwtService jwtService;
 
     @PostMapping("/login")
+    @Operation(summary = "Вход в систему")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Успешный вход, получен токен"),
+            @ApiResponse(responseCode = "401", description = "Неверный email или пароль")
+    })
     public LoginResponse login(@RequestBody LoginRequest request) {
         return userService.login(request);
     }
 
     @GetMapping("/login")
+    @Operation(summary = "Проверка авторизации")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Пользователь авторизован"),
+            @ApiResponse(responseCode = "401", description = "Неавторизованный доступ")
+    })
     public CheckAuthResponse checkAuth(@RequestAttribute("currentUser") User user) {
         String token = jwtService.createToken(user.getId());
         return CheckAuthResponse.builder()
@@ -48,15 +64,28 @@ public class UserController {
     }
 
     @DeleteMapping("/logout")
+    @Operation(summary = "Выход из системы")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Успешный выход")
+    })
     public ResponseEntity<Void> logout() {
         return ResponseEntity.ok().build();
     }
 
     @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Регистрация нового пользователя")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Пользователь успешно зарегистрирован"),
+            @ApiResponse(responseCode = "400", description = "Неверные данные или email уже существует")
+    })
     public User register(
+            @Parameter(description = "Имя пользователя", required = true, example = "john_doe")
             @RequestPart("username") String username,
+            @Parameter(description = "Email", required = true, example = "user@example.com")
             @RequestPart("email") String email,
+            @Parameter(description = "Пароль (6-12 символов)", required = true, example = "password123")
             @RequestPart("password") String password,
+            @Parameter(description = "Аватар пользователя (опционально)")
             @RequestPart(value = "avatar", required = false) MultipartFile avatar
     ) {
         UserRegistrationRequest request = new UserRegistrationRequest();
@@ -90,4 +119,3 @@ public class UserController {
         return userService.register(request, avatarPath);
     }
 }
-

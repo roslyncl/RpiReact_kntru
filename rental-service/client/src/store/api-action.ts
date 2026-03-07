@@ -34,6 +34,7 @@ const fetchOffersAction = createAsyncThunk<void, undefined, {
       dispatch(offersCityList(data));
     } catch (error) {
       dispatch(setError('Не удалось загрузить предложения'));
+      console.error('Ошибка загрузки:', error);
     } finally {
       dispatch(setOffersDataLoadingStatus(false));
     }
@@ -52,6 +53,7 @@ const fetchFavoriteOffersAction = createAsyncThunk<void, undefined, {
       dispatch(setFavoriteOffers(data));
     } catch (error) {
       dispatch(setError('Не удалось загрузить избранное'));
+      console.error('Ошибка загрузки избранного:', error);
     }
   },
 );
@@ -67,9 +69,11 @@ const toggleFavoriteAction = createAsyncThunk<OfferList, { offerId: string; stat
       const { data } = await api.post<OfferList>(`${APIRoute.ToggleFavorite}/${offerId}/${status}`);
       dispatch(updateOfferFavoriteStatus({ offerId, isFavorite: status === 1 }));
       dispatch(fetchFavoriteOffersAction());
+      
       return data;
     } catch (error) {
       dispatch(setError('Не удалось изменить статус избранного'));
+      console.error('Ошибка изменения избранного:', error);
       throw error;
     }
   },
@@ -88,6 +92,7 @@ const fetchOfferAction = createAsyncThunk<void, string, {
       dispatch(setCurrentOffer(data));
     } catch (error) {
       dispatch(setError('Не удалось загрузить информацию о предложении'));
+      console.error('Ошибка загрузки предложения:', error);
     } finally {
       dispatch(setCurrentOfferLoadingStatus(false));
     }
@@ -106,6 +111,7 @@ const fetchReviewsAction = createAsyncThunk<void, string, {
       dispatch(setReviews(data));
     } catch (error) {
       dispatch(setError('Не удалось загрузить отзывы'));
+      console.error('Ошибка загрузки отзывов:', error);
     }
   },
 );
@@ -119,10 +125,12 @@ const postReviewAction = createAsyncThunk<void, { offerId: string; comment: stri
   async ({ offerId, comment, rating }, { dispatch, extra: api }) => {
     try {
       await api.post(`${APIRoute.Reviews}/${offerId}`, { comment, rating });
+      
       const { data } = await api.get<Review[]>(`${APIRoute.Reviews}/${offerId}`);
       dispatch(setReviews(data));
     } catch (error) {
       dispatch(setError('Не удалось отправить отзыв'));
+      console.error('Ошибка отправки отзыва:', error);
       throw error;
     }
   },
@@ -172,7 +180,6 @@ const loginAction = createAsyncThunk<UserData, AuthData, {
        token: data.token,
        username: userResponse.data.username
      }));
-     
      dispatch(fetchFavoriteOffersAction());
      
      return userResponse.data;
@@ -196,7 +203,7 @@ const logoutAction = createAsyncThunk<void, undefined, {
    dropToken();
    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
    dispatch(setUser(null));
-   dispatch(setFavoriteOffers([]));
+   dispatch(setFavoriteOffers([]));  
  },
 );
 
