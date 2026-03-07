@@ -13,7 +13,7 @@ import { FullOffer, OfferList} from "../../types/offer";
 import { Review } from '../../types/review';
 import { useAppSelector, useAppDispatch  } from '../../hooks';
 import { LoadingPage } from '../loading-page/loading-page';
-import { fetchOffersAction } from '../../store/api-action';
+import { fetchOffersAction, checkAuthAction } from '../../store/api-action';
 
 type AppMainPageProps = {
     rentalOffersCount: number;
@@ -26,9 +26,9 @@ function App({rentalOffersCount, offersList, offers}: AppMainPageProps): JSX.Ele
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
-  const offersFromStore = useAppSelector((state) => state.offers);
 
   useEffect(() => {
+    dispatch(checkAuthAction());
     dispatch(fetchOffersAction());
   }, [dispatch]);
 
@@ -37,6 +37,7 @@ function App({rentalOffersCount, offersList, offers}: AppMainPageProps): JSX.Ele
         <LoadingPage />
       );
     }
+    
     return(
         <BrowserRouter>
         <Routes>
@@ -51,17 +52,15 @@ function App({rentalOffersCount, offersList, offers}: AppMainPageProps): JSX.Ele
             <Route
               path={AppRoute.Favorites}
               element={
-                <PrivateRoute
-                  authorizationStatus={authorizationStatus}
-                >
-                  <FavoritesPage favoriteOffers={offersList.filter(offer => offer.isFavorite)} />
+                <PrivateRoute authorizationStatus={authorizationStatus}>
+                  <FavoritesPage />
                 </PrivateRoute>
               }
             />
 
             <Route
             path = { `${AppRoute.Offer}/:id` } 
-            element = {<OfferPage  offers={offers}/>}/>
+            element = {<OfferPage />}/>
             
             <Route
             path = "*"

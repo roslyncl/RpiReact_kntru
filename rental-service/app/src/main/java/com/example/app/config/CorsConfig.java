@@ -23,7 +23,9 @@ public class CorsConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        String uploadPath = "file:C:/Users/Пользователь/Desktop/projects/s21/rpi_homework_React/uploads/offers/";
+
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:uploads/");
+                .addResourceLocations(uploadPath);
     }
 }

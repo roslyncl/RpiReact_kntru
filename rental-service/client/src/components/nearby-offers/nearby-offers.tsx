@@ -1,4 +1,4 @@
-import {JSX} from 'react';
+import { JSX } from 'react';
 import { OfferList } from "../../types/offer";
 import { CitiesCardList } from "../cities-card-list/cities-card-list";
 
@@ -12,7 +12,7 @@ function NearbyOffers({ nearbyOffers, onCardHover }: NearbyOffersProps): JSX.Ele
     <section className="near-places places">
       <h2 className="near-places__title">Other places in the neighbourhood</h2>
       <CitiesCardList 
-        offersList={nearbyOffers} 
+        offersList={nearbyOffers.slice(0, 3)} 
         cardType="near-places"
         onCardHover={onCardHover}
       />

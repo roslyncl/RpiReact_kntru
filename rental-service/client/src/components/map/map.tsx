@@ -3,19 +3,10 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import useMap from './useMap';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
-import { OfferList } from '../../types/offer';
-
-type City = {
-  name: string;
-  location: {
-    latitude: number;
-    longitude: number;
-    zoom: number;
-  };
-};
+import { OfferList, CityOffer } from '../../types/offer';
 
 type MapProps = {
-  city: City;
+  city: CityOffer | undefined;
   points: OfferList[];
   selectedPoint: OfferList | null;
 };
@@ -59,7 +50,11 @@ function Map({ city, points, selectedPoint }: MapProps): JSX.Element {
         }
       };
     }
-  }, [map, points, selectedPoint]);
+  }, [map, points, selectedPoint, defaultCustomIcon, currentCustomIcon]);
+
+  if (!city) {
+    return <div className="cities__map map" ref={mapRef} style={{ height: '100%' }}></div>;
+  }
 
   return (
     <div

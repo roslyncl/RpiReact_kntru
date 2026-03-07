@@ -1,21 +1,13 @@
 import { useEffect, useState, useRef } from 'react';
 import leaflet from 'leaflet';
+import { CityOffer } from '../../types/offer';
 
-type City = {
-  name: string;
-  location: {
-    latitude: number;
-    longitude: number;
-    zoom: number;
-  };
-};
-
-function useMap(mapRef: React.RefObject<HTMLDivElement | null>, city: City) { 
+function useMap(mapRef: React.RefObject<HTMLDivElement | null>, city: CityOffer | undefined) { 
   const [map, setMap] = useState<leaflet.Map | null>(null);
   const isRenderedRef = useRef(false);
 
   useEffect(() => {
-    if (mapRef.current !== null && !isRenderedRef.current) {
+    if (mapRef.current !== null && !isRenderedRef.current && city) {
       const instance = leaflet.map(mapRef.current, {
         center: {
           lat: city.location.latitude,

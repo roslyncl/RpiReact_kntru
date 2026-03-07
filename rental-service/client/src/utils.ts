@@ -23,3 +23,9 @@ export function sortOffersByType (offers: OfferList[], type: SortOffer): OfferLi
   }
 }
 
+export const getImageUrl = (imagePath: string): string => {
+  if (!imagePath) return '/img/apartment-01.jpg';
+  if (imagePath.startsWith('http')) return imagePath;
+  return `http://localhost:5000${imagePath}`;
+};
+

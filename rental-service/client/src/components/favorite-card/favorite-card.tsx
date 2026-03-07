@@ -1,6 +1,8 @@
-import {JSX} from 'react';
+import { JSX } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { toggleFavoriteAction } from '../../store/api-action';
 
 type FavoriteCardProps = {
   id: string;
@@ -14,6 +16,14 @@ type FavoriteCardProps = {
 }
 
 function FavoriteCard({ id, title, type, price, previewImage, isPremium, rating, city }: FavoriteCardProps): JSX.Element {
+  const dispatch = useAppDispatch();
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(toggleFavoriteAction({ offerId: id, status: 0 })); // 0 = удалить из избранного
+  };
+
   return (
     <article className="favorites__card place-card">
       {isPremium && (
@@ -38,9 +48,13 @@ function FavoriteCard({ id, title, type, price, previewImage, isPremium, rating,
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+          <button 
+            className="place-card__bookmark-button place-card__bookmark-button--active button" 
+            type="button"
+            onClick={handleFavoriteClick}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use href="#icon-bookmark"></use>
+              <use xlinkHref="#icon-bookmark"></use>
             </svg>
             <span className="visually-hidden">In bookmarks</span>
           </button>

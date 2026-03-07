@@ -26,6 +26,7 @@ function CitiesCardList({ offersList, cardType = 'cities', onCardHover }: Cities
                     previewImage={offer.previewImage} 
                     isPremium={offer.isPremium} 
                     rating={offer.rating}
+                    isFavorite={offer.isFavorite} // Это важно!
                     cardType={cardType}
                     onMouseEnter={() => onCardHover && onCardHover(offer)}
                     onMouseLeave={() => onCardHover && onCardHover(null)}
