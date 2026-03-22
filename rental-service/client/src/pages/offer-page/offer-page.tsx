@@ -8,25 +8,23 @@ import {
   toggleFavoriteAction
 } from '../../store/api-action';
 import { setCurrentOffer, setReviews } from '../../store/action';
-import { Logo } from "../../components/logo/logo";
 import { Map } from "../../components/map/map";
 import { ReviewsList } from "../../components/review-list/review-list";
 import { ReviewsForm } from "../../components/reviews-form/reviews-form";
 import { NearbyOffers } from "../../components/nearby-offers/nearby-offers";
 import { NotFoundPage } from "../not-found-page/not-found-page";
 import { LoadingPage } from "../../components/loading-page/loading-page";
-import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { OfferList } from '../../types/offer';
+import { Header } from '../../components/header/header';
 
 const BASE_URL = 'http://localhost:5000';
 
-// Только проверенные рабочие фото
 const workingPhotos = [
   'apartment-01.jpg',
   'apartment-02.jpg',
   'apartment-03.jpg',
-  'apartment-01.jpg', // дублируем первые, если остальные не работают
+  'apartment-01.jpg',
   'apartment-02.jpg',
   'apartment-03.jpg'
 ];
@@ -82,7 +80,6 @@ function OfferPage() {
     .filter(offer => offer.id !== id && offer.city.name === currentOffer.city.name)
     .slice(0, 3);
 
-  // Используем только рабочие фото
   const offerImages = workingPhotos.map(photo => `${BASE_URL}/uploads/offers/${photo}`);
 
   const currentOfferForMap: OfferList = {
@@ -101,61 +98,9 @@ function OfferPage() {
   const allMapPoints = [currentOfferForMap, ...nearbyOffers];
   const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
-  const getAvatarUrl = (avatarPath: string | null | undefined) => {
-    if (!avatarPath) return '/img/avatar.svg';
-    if (avatarPath.startsWith('http')) return avatarPath;
-    const fileName = avatarPath.split('/').pop() || 'avatar.svg';
-    return `${BASE_URL}/uploads/avatars/${fileName}`;
-  };
-
   return (
     <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo />
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                {isAuthorized ? (
-                  <>
-                    <li className="header__nav-item user">
-                      <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
-                        <div className="header__avatar-wrapper user__avatar-wrapper">
-                          {user?.avatar ? (
-                            <img 
-                              src={getAvatarUrl(user.avatar)} 
-                              alt="User avatar"
-                              style={{ borderRadius: '50%', width: '20px', height: '20px', objectFit: 'cover' }}
-                            />
-                          ) : (
-                            <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                          )}
-                        </div>
-                        <span className="header__user-name user__name">{user?.email || 'User'}</span>
-                        <span className="header__favorite-count">{favoriteCount}</span>
-                      </Link>
-                    </li>
-                    <li className="header__nav-item">
-                      <Link className="header__nav-link" to={AppRoute.Main}>
-                        <span className="header__signout">Sign out</span>
-                      </Link>
-                    </li>
-                  </>
-                ) : (
-                  <li className="header__nav-item user">
-                    <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Login}>
-                      <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                      <span className="header__login">Sign in</span>
-                    </Link>
-                  </li>
-                )}
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header /> 
 
       <main className="page__main page__main--offer">
         <section className="offer">

@@ -1,5 +1,4 @@
 import { JSX, useEffect } from 'react';
-import { Logo } from "../../components/logo/logo";
 import { FavoriteCardList } from "../../components/favorite-card-list/favorite-card-list";
 import { OfferList } from "../../types/offer";
 import { Link } from 'react-router-dom';
@@ -7,12 +6,7 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { fetchFavoriteOffersAction } from '../../store/api-action';
 import { LoadingPage } from '../../components/loading-page/loading-page';
-
-const getAvatarUrl = (avatarPath: string | null | undefined): string => {
-  if (!avatarPath) return '/img/avatar.svg';
-  if (avatarPath.startsWith('http')) return avatarPath;
-  return `http://localhost:5000${avatarPath}`;
-};
+import { Header } from '../../components/header/header';
 
 function FavoritesPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -43,41 +37,7 @@ function FavoritesPage(): JSX.Element {
 
   return (
     <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo />
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                      {user?.avatar ? (
-                        <img 
-                          src={getAvatarUrl(user.avatar)} 
-                          alt="User avatar"
-                          style={{ borderRadius: '50%', width: '20px', height: '20px', objectFit: 'cover' }}
-                        />
-                      ) : (
-                        <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                      )}
-                    </div>
-                    <span className="header__user-name user__name">{user?.email || 'User'}</span>
-                    <span className="header__favorite-count">{favoriteOffers.length}</span>
-                  </Link>
-                </li>
-                <li className="header__nav-item">
-                  <Link className="header__nav-link" to={AppRoute.Main}>
-                    <span className="header__signout">Sign out</span>
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header /> 
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">

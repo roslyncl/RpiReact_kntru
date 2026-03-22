@@ -1,5 +1,5 @@
+// main-page.tsx
 import { CitiesCardList } from "../../components/cities-card-list/cities-card-list";
-import { Logo } from "../../components/logo/logo";
 import { Map } from "../../components/map/map";
 import { CitiesList } from "../../components/cities-list/cities-list"; 
 import { SortOptions } from "../../components/sort-options/sort-options"; 
@@ -9,15 +9,8 @@ import { getOffersByCity} from "../../utils";
 import { OfferList } from "../../types/offer";
 import { SortOffer } from "../../types/sort"; 
 import { sortOffersByType } from "../../utils";
-import { Link, useNavigate } from 'react-router-dom'; 
-import { AppRoute, AuthorizationStatus } from '../../const'; 
-import { logoutAction } from '../../store/api-action'; 
-
-const getAvatarUrl = (avatarPath: string | null | undefined): string => {
-  if (!avatarPath) return '/img/avatar.svg';
-  if (avatarPath.startsWith('http')) return avatarPath;
-  return `http://localhost:5000${avatarPath}`;
-};
+import { Header } from "../../components/header/header";
+import { Link, useNavigate } from 'react-router-dom';
 
 function MainPage() {
     const dispatch = useAppDispatch(); 
@@ -42,72 +35,9 @@ function MainPage() {
 
     const sortedOffers = sortOffersByType([...selectedCityOffers], activeSort);
 
-    const handleLogout = () => {
-        dispatch(logoutAction());
-        navigate(AppRoute.Main);
-    };
-
-    const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
-
     return (
         <div className="page page--gray page--main">
-            <header className="header">
-                <div className="container">
-                    <div className="header__wrapper">
-                        <div className="header__left">
-                            <Logo />
-                        </div>
-                        <nav className="header__nav">
-                            <ul className="header__nav-list">
-                                {isAuthorized ? ( 
-                                    <>
-                                        <li className="header__nav-item user">
-                                            <Link 
-                                                className="header__nav-link header__nav-link--profile" 
-                                                to={AppRoute.Favorites}
-                                            >
-                                                <div className="header__avatar-wrapper user__avatar-wrapper">
-                                                    <img 
-                                                        src={getAvatarUrl(user?.avatar)} 
-                                                        alt="User avatar"
-                                                        style={{ borderRadius: '50%', width: '20px', height: '20px', objectFit: 'cover' }}
-                                                    />
-                                                </div>
-                                                <span className="header__user-name user__name">
-                                                    {user?.email || 'User'}
-                                                </span>
-                                                <span className="header__favorite-count">{favoriteCount}</span>
-                                            </Link>
-                                        </li>
-                                        <li className="header__nav-item">
-                                            <Link 
-                                                className="header__nav-link" 
-                                                to="#"
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    handleLogout();
-                                                }}
-                                            >
-                                                <span className="header__signout">Sign out</span>
-                                            </Link>
-                                        </li>
-                                    </>
-                                ) : ( 
-                                    <li className="header__nav-item user">
-                                        <Link 
-                                            className="header__nav-link header__nav-link--profile" 
-                                            to={AppRoute.Login}
-                                        >
-                                            <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                                            <span className="header__login">Sign in</span>
-                                        </Link>
-                                    </li>
-                                )}
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </header>
+            <Header /> 
 
             <main className="page__main page__main--index">
                 <h1 className="visually-hidden">Cities</h1>

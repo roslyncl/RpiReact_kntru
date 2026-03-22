@@ -1,19 +1,11 @@
 import {JSX} from 'react';
-import { Logo } from "../../components/logo/logo";
 import { Link } from 'react-router-dom';
+import { Header } from '../../components/header/header';
 
 function NotFoundPage(): JSX.Element {
   return (
     <div className="page" style={{textAlign: 'center', padding: '50px'}}>
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo />
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header /> 
       
       <main style={{flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
         <div>
